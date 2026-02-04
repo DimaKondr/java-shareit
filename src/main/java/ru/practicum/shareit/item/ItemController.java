@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.constants.HttpHeaderNames;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long ownerId,
+    public ItemDto addItem(@RequestHeader(HttpHeaderNames.USER_ID) Long ownerId,
                            @RequestBody
                                @Validated(ItemDto.OnCreate.class) ItemDto itemDto) {
         return itemService.addItem(ownerId, itemDto);
@@ -40,7 +41,7 @@ public class ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long ownerId,
+    public ItemDto updateItem(@RequestHeader(HttpHeaderNames.USER_ID) Long ownerId,
                               @PathVariable("itemId")
                                   @NotNull(message = "itemId не может быть null")
                                   @Valid Long itemId,
@@ -51,7 +52,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemId}")
-    public ItemDto removeUser(@RequestHeader("X-Sharer-User-Id") Long ownerId,
+    public ItemDto removeUser(@RequestHeader(HttpHeaderNames.USER_ID) Long ownerId,
                               @PathVariable("itemId")
                                   @NotNull(message = "itemId не может быть null")
                                   @Valid Long removedItemId) {
@@ -59,7 +60,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getAllItems(@RequestHeader("X-Sharer-User-Id") Long ownerId) {
+    public List<ItemDto> getAllItems(@RequestHeader(HttpHeaderNames.USER_ID) Long ownerId) {
         return itemService.getAllItems(ownerId);
     }
 
