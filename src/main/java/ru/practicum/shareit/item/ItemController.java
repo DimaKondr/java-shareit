@@ -7,13 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.constants.HttpHeaderNames;
+import ru.practicum.shareit.item.dto.CommentCreateDto;
+import ru.practicum.shareit.item.dto.CommentResponseDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping("/items")
 @Validated
@@ -47,16 +46,16 @@ public class ItemController {
                                   @Valid Long itemId,
                               @RequestBody
                                   @Validated(ItemDto.OnUpdate.class)
-                                  /*@Valid*/ ItemDto updatedItemDto) {
+                                  ItemDto updatedItemDto) {
         return itemService.updateItem(itemId, ownerId, updatedItemDto);
     }
 
     @DeleteMapping("/{itemId}")
-    public ItemDto removeUser(@RequestHeader(HttpHeaderNames.USER_ID) Long ownerId,
-                              @PathVariable("itemId")
-                                  @NotNull(message = "itemId не может быть null")
-                                  @Valid Long removedItemId) {
-        return itemService.removeItem(ownerId, removedItemId);
+    public void removeItem(@RequestHeader(HttpHeaderNames.USER_ID) Long ownerId,
+                           @PathVariable("itemId")
+                               @NotNull(message = "itemId не может быть null")
+                               @Valid Long removedItemId) {
+        itemService.removeItem(ownerId, removedItemId);
     }
 
     @GetMapping
@@ -67,6 +66,17 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> searchItems(@RequestParam(name = "text") String text) {
         return itemService.searchItems(text);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommentResponseDto addComment(@RequestHeader(HttpHeaderNames.USER_ID) Long authorId,
+                                         @RequestBody
+                                             @Valid CommentCreateDto commentDto,
+                                         @PathVariable("itemId")
+                                           @NotNull(message = "itemId не может быть null")
+                                           @Valid Long itemId) {
+        return itemService.addComment(authorId, commentDto, itemId);
     }
 
 }
