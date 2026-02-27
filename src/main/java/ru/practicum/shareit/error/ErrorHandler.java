@@ -27,7 +27,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(ValidationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleValidation(final ValidationException e) {
         return new ErrorResponse(e.getMessage(),
                 "НЕКОРРЕКТНЫЕ ПАРАМЕТРЫ."

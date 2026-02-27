@@ -16,7 +16,7 @@ public interface UserService {
     UserDto updateUser(Long userId, UserDto updatedUserDto);
 
     // Удаляем имеющегося пользователя.
-    UserDto removeUser(Long userId);
+    void removeUser(Long userId);
 
     // Получаем список всех имеющихся пользователей.
     List<UserDto> getAllUsers();

@@ -11,9 +11,6 @@ import ru.practicum.shareit.user.service.UserService;
 
 import java.util.List;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping("/users")
 @Validated
@@ -27,7 +24,9 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto addUser(@Valid @RequestBody UserDto userDto) {
+    public UserDto addUser(@RequestBody
+                               @Validated(UserDto.OnCreate.class)
+                               UserDto userDto) {
         return userService.addUser(userDto);
     }
 
@@ -43,15 +42,16 @@ public class UserController {
                                   @NotNull(message = "userId не может быть null")
                                   @Valid Long userId,
                               @RequestBody
-                                  @Valid UserDto updatedUserDto) {
+                                  @Validated(UserDto.OnUpdate.class)
+                                  UserDto updatedUserDto) {
         return userService.updateUser(userId, updatedUserDto);
     }
 
     @DeleteMapping("/{userId}")
-    public UserDto removeUser(@PathVariable("userId")
+    public void removeUser(@PathVariable("userId")
                                   @NotNull(message = "userId не может быть null")
                                   @Valid Long removedUserId) {
-        return userService.removeUser(removedUserId);
+        userService.removeUser(removedUserId);
     }
 
     @GetMapping
