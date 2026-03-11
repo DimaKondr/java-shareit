@@ -67,9 +67,9 @@ public class ItemRequestServiceImplTests {
             System.out.println(">>>>> Ошибка при добавлении лага 100 мс <<<<<");
         }
 
-        ItemDto itemForRequest1 =new ItemDto(null, "Балалайка", "На ней играл Элвис Пресли",
+        ItemDto itemForRequest1 = new ItemDto(null, "Балалайка", "На ней играл Элвис Пресли",
                 true, itemRequestResponseDto1.getId());
-        ItemDto itemForRequest2 =new ItemDto(null, "Самовар",
+        ItemDto itemForRequest2 = new ItemDto(null, "Самовар",
                 "Использовался только один раз на свадьбе", true, itemRequestResponseDto3.getId());
 
         itemForRequest1 = itemService.addItem(userDto2.getId(), itemForRequest1);
