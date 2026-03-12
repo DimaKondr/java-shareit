@@ -12,7 +12,6 @@ import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,8 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long userId) {
-        Optional<User> user = repository.findById(userId);
-        return UserMapper.userToDto(user.orElseThrow());
+        User user = repository.findById(userId).orElseThrow(() -> new NotFoundException("Пользователь с ID: "
+                + userId + " не найден"));
+        return UserMapper.userToDto(user);
     }
 
     @Transactional
@@ -60,6 +60,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void removeUser(Long userId) {
+        User removedUser = repository.findById(userId).orElseThrow(() -> new NotFoundException("Удаление пользователя."
+                + " Пользователь с ID: " + userId + " не найден"));
         repository.deleteById(userId);
     }
 

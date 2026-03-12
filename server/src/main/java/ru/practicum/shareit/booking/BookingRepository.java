@@ -39,20 +39,20 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query("select b from Booking b " +
             "join b.item as i " +
-            "where i.ownerId = ?1" +
+            "where i.ownerId = ?1 " +
             "and ?2 < b.start")
     List<Booking> findItemsOfBookerWhereFutureStatus(Long bookerId, LocalDateTime now, Sort sort);
 
     @Query("select b from Booking b " +
             "join b.item as i " +
-            "where i.ownerId = ?1" +
-            "and b.status = ?2 ")
+            "where i.ownerId = ?1 " +
+            "and b.status = ?2")
     List<Booking> findItemsOfBookerWhereWaitingStatus(Long bookerId, BookingStatus status, Sort sort);
 
     @Query("select b from Booking b " +
             "join b.item as i " +
-            "where i.ownerId = ?1" +
-            "and b.status = ?2 ")
+            "where i.ownerId = ?1 " +
+            "and b.status = ?2")
     List<Booking> findItemsOfBookerWhereRejectedStatus(Long bookerId, BookingStatus status, Sort sort);
 
     @Query("select b from Booking b " +
