@@ -166,8 +166,9 @@ public class BookingServiceImplTests {
                 null, null, new ArrayList<>(), null);
         ItemDto savedItemDto = itemService.addItem(ownerDto.getId(), itemDto);
 
-        LocalDateTime start = LocalDateTime.now().plusDays(1);
-        LocalDateTime end = LocalDateTime.now().plusDays(1);
+        LocalDateTime sameTime = LocalDateTime.now().plusDays(1);
+        LocalDateTime start = sameTime;
+        LocalDateTime end = sameTime;
 
         BookingCreateDto bookingCreateDto = new BookingCreateDto(
                 start, end, savedItemDto.getId(), bookerDto.getId()

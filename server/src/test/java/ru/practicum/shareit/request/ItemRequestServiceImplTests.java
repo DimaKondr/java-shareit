@@ -141,12 +141,19 @@ public class ItemRequestServiceImplTests {
         ItemRequestCreateDto itemRequestDto2 = new ItemRequestCreateDto("Ищу зарядку для аккумулятора авто");
 
         ItemRequestResponseDto responseDto1 = itemRequestService.addItemRequest(userDto.getId(), itemRequestDto1);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            System.out.println(">>>>> Ошибка при добавлении лага 100 мс <<<<<");
+        }
+
         ItemRequestResponseDto responseDto2 = itemRequestService.addItemRequest(userDto.getId(), itemRequestDto2);
 
         List<ItemRequestResponseDto> requests = itemRequestService.getRequestsWithInfo(userDto.getId());
 
         assertThat(requests, hasSize(2));
-        assertThat(requests, contains(responseDto1, responseDto2));
+        assertThat(requests, contains(responseDto2, responseDto1));
         assertThat(requests.get(0).getItems(), empty());
         assertThat(requests.get(1).getItems(), empty());
     }
